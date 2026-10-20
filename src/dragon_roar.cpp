@@ -31,7 +31,6 @@ namespace
 {
     constexpr RE::FormID kDragonKeyword = 0x035D59;  // ActorTypeDragon
     constexpr float      kVeryCloseDistance = 2000.0f;  // near even out of combat
-    constexpr float      kCombatRadius = 6000.0f;       // a fight this close is "near"
     constexpr auto       kNearCooldown = std::chrono::seconds(60);
     constexpr auto       kDistantCooldown = std::chrono::seconds(60);
 
@@ -235,9 +234,10 @@ namespace
 
         RoarClass roarClass;
         if (dragon.distance >= 0.0f) {
-            const bool fighting = dragon.inCombat && dragon.distance <= kCombatRadius;
+            // A dragon in combat is always near: it is the fight in front of you,
+            // wherever it happens to be circling at that moment.
             const bool veryClose = dragon.distance <= kVeryCloseDistance;
-            roarClass = (fighting || veryClose) ? RoarClass::kNear : RoarClass::kDistant;
+            roarClass = (dragon.inCombat || veryClose) ? RoarClass::kNear : RoarClass::kDistant;
         } else {
             roarClass = sawNearVariant ? RoarClass::kNear : RoarClass::kDistant;
         }
