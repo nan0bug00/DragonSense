@@ -1,0 +1,21 @@
+name: "dragonsense_remember"
+description: "DragonSense event delivered as a stored event: no immediate reaction, but it stays in history."
+
+eventCriteria:
+  eventType: "dragonsense_event"
+  schemaConditions:
+    - fieldPath: "mode"
+      operator: "equals"
+      value: "remember"
+
+response:
+  type: "persistent_generic"
+  content: |-
+    {% if event_json.kind == "roar_near" %}一声龙吼在近处炸响，巨大而粗粝，震得胸口发麻。{% else if event_json.kind == "roar_distant" %}远处，某个庞然大物咆哮了一声。声音越过大地回荡，渐渐消散，但那东西并不近。{% else %}一个宏大的声音从山巅滚落，一时间，领地上所有活物都静了下来：“都瓦克因！”{% endif %}
+
+audience: "nearby_npcs"
+
+enabled: true
+probability: 1.0
+cooldownSeconds: 5
+priority: 7

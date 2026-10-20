@@ -1,7 +1,7 @@
-{
+﻿{
   "type": "bundle",
-  "id": "steamuser.dragonsense",
-  "author": "steamuser",
+  "id": "stoptryharding.dragonsense",
+  "author": "stoptryharding",
   "version": "0.3.0",
   "min_skyrimnet_version": "0.25.0",
   "title": "DragonSense",

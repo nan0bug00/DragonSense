@@ -1,0 +1,21 @@
+name: "dragonsense_remember"
+description: "DragonSense event delivered as a stored event: no immediate reaction, but it stays in history."
+
+eventCriteria:
+  eventType: "dragonsense_event"
+  schemaConditions:
+    - fieldPath: "mode"
+      operator: "equals"
+      value: "remember"
+
+response:
+  type: "persistent_generic"
+  content: |-
+    {% if event_json.kind == "roar_near" %}가까이서 드래곤의 포효가 터졌다. 거대하고 거칠며, 가슴이 울릴 만큼 컸다.{% else if event_json.kind == "roar_distant" %}멀리서 거대한 무언가가 포효했다. 소리는 대지를 가로질러 울리다 잦아들었고, 그 주인은 가까이 있지 않았다.{% else %}거대한 목소리가 산에서 굴러 내려왔고, 잠시 영지의 모든 생명이 숨을 죽였다. "도바킨!"{% endif %}
+
+audience: "nearby_npcs"
+
+enabled: true
+probability: 1.0
+cooldownSeconds: 5
+priority: 7

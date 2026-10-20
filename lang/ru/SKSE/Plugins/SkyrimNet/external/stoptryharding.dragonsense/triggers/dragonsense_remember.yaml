@@ -1,0 +1,21 @@
+name: "dragonsense_remember"
+description: "DragonSense event delivered as a stored event: no immediate reaction, but it stays in history."
+
+eventCriteria:
+  eventType: "dragonsense_event"
+  schemaConditions:
+    - fieldPath: "mode"
+      operator: "equals"
+      value: "remember"
+
+response:
+  type: "persistent_generic"
+  content: |-
+    {% if event_json.kind == "roar_near" %}Совсем рядом раздался драконий рёв — огромный и хриплый, от него дрожало в груди.{% else if event_json.kind == "roar_distant" %}Где-то вдали ревело нечто огромное. Звук катился по земле и стихал, и то, что его издало, было далеко.{% else %}Огромный голос скатился с горы, и на миг всё живое в округе замерло: «Довакин!»{% endif %}
+
+audience: "nearby_npcs"
+
+enabled: true
+probability: 1.0
+cooldownSeconds: 5
+priority: 7

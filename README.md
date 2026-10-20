@@ -1,13 +1,13 @@
-# DragonSense
+﻿# DragonSense
 
 Gives SkyrimNet NPCs ears for things typically only perceived by the player.
 
 Two things, so far:
 
-- **Dragon roars.** The plugin watches the dragon flight-roar sound records, ignores the ones that are a kill or a resurrection, classifies the roar by how far the nearest live dragon is, and raises its own `dragonsense_event`. A dragon in combat within a cell and a half counts as near; anything else is distant; a dragon within half a cell is near regardless.
+- **Dragon roars.** The plugin watches the dragon flight-roar sound records, ignores kill and resurrection roars, and raises its own `dragonsense_event` when one plays. A dragon in combat is always classified near; otherwise within 2,000 units is near and anything further is distant.
 - **The Greybeards' summons.** Watched from `MQGreybeardCall`'s startup stage, so it narrates when the shout actually plays rather than when the quest ends.
 
-Each roar episode is a coin flip: half become a stored event the NPCs can remember later, half become an authored narration that provokes a reaction now. The two lines are in the trigger files, so they can be reworded without rebuilding anything.
+Each roar episode is a coin flip: half become a stored event the NPCs can remember later, half become an authored narration that provokes a reaction now.
 
 No ESP. One DLL plus two trigger files, all inside one mod folder.
 
@@ -19,7 +19,15 @@ No ESP. One DLL plus two trigger files, all inside one mod folder.
 
 ## Install
 
-Install the mod folder with your mod manager and enable it. That's it — the plugin registers its event type with SkyrimNet when a save loads, and the trigger files are read from `SKSE/Plugins/SkyrimNet/external/steamuser.dragonsense/`.
+Install the mod folder with your mod manager and enable it. The plugin registers its event type with SkyrimNet when a save loads, and the trigger files are read from `SKSE/Plugins/SkyrimNet/external/stoptryharding.dragonsense/`.
+
+## Languages
+
+English is built in. The other eleven ship as separate packs in the release zip:
+
+Russian, Japanese, Portuguese, Spanish, French, German, Italian, Polish, Korean, Vietnamese, Chinese (Simplified), Chinese (Traditional).
+
+Install the pack you want alongside the main mod and let it win the file conflict — in MO2, place it after DragonSense in the left pane. Each pack provides the same layer path with translated text, so exactly one can be active.
 
 ## Building
 
