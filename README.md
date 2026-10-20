@@ -1,6 +1,6 @@
 # DragonSense
 
-Gives SkyrimNet NPCs ears for the things Skyrim only tells the player about.
+Gives SkyrimNet NPCs ears for things typically only perceived by the player.
 
 Two things, so far:
 
