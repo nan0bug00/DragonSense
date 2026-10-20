@@ -1,11 +1,19 @@
-# Copies the freshly built plugin and the English content plugin into the MO2 mod folder.
-# Run after a build; no arguments needed for the normal case.
+# Deploys a build into a mod folder for testing.
+#
+# Test builds go to a separate mod ("DragonSense - Test"), never over the stable
+# install. Deploying to the stable mod requires -AllowStable, which is for release
+# verification only.
 param(
     [string]$ModsDir = 'C:\Modlists\Skyrim25-Myedit\mods',
-    [string]$ModName = 'DragonSense'
+    [string]$ModName = 'DragonSense - Test',
+    [switch]$AllowStable
 )
 
 $ErrorActionPreference = 'Stop'
+
+if ($ModName -eq 'DragonSense' -and -not $AllowStable) {
+    throw "refusing to deploy over the stable mod '$ModName'; pass -AllowStable for a release deploy"
+}
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $buildDir = Join-Path $projectRoot 'build'
@@ -40,4 +48,4 @@ Copy-Item (Join-Path $projectRoot 'plugins\en\triggers') $layerDest -Recurse -Fo
 Write-Output "English content plugin synced to $layerDest"
 
 Write-Output "destination: $modRoot"
-Write-Output "MOD folder is '$ModName' - enable it in MO2 if it is not already enabled, and restart the game (SKSE loads plugins only at startup)."
+Write-Output "Enable '$ModName' and disable the stable 'DragonSense' mod while testing, then restart the game."

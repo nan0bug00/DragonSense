@@ -45,7 +45,9 @@ cmake --preset default
 cmake --build build
 ```
 
-The CommonLibSSE-NG checkout is not committed; clone it into `lib/` as shown. `scripts/deploy.ps1` copies the built DLL and the English plugin into an MO2 instance for testing, and `scripts/build-fomod.ps1` assembles the release archive from `plugins/`.
+The CommonLibSSE-NG checkout is not committed; clone it into `lib/` as shown. `scripts/build-fomod.ps1` assembles the release archive from `plugins/`.
+
+`scripts/deploy.ps1` deploys to a separate **DragonSense - Test** mod — test builds never touch the stable install. Writing to the stable mod requires `-AllowStable`, which is for release verification only. Enable the test mod and disable the stable one while testing.
 
 ## Layout
 
