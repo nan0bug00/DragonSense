@@ -17,20 +17,26 @@ jobs:
       - name: Fetch CommonLibSSE-NG
         run: git clone --branch ng --depth 1 https://github.com/alandtse/CommonLibVR.git lib/commonlibsse-ng
 
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
       - name: Configure
         run: >
-          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+          cmake -S . -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo
           -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
           -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
 
       - name: Build
-        run: cmake --build build --config RelWithDebInfo
+        run: cmake --build build
 
       - name: Assemble mod
         run: |
           New-Item -ItemType Directory -Force -Path package/DragonSense | Out-Null
           Copy-Item mod/* package/DragonSense -Recurse -Force
-          Copy-Item build/RelWithDebInfo/DragonSense.dll package/DragonSense/SKSE/Plugins/ -Force
+          Copy-Item build/DragonSense.dll package/DragonSense/SKSE/Plugins/ -Force
           Compress-Archive -Path package/DragonSense/* -DestinationPath "DragonSense-${{ github.ref_name }}.zip" -Force
 
       - name: Publish release
@@ -39,5 +45,5 @@ jobs:
         with:
           files: |
             DragonSense-${{ github.ref_name }}.zip
-            build/RelWithDebInfo/DragonSense.pdb
+            build/DragonSense.pdb
           generate_release_notes: true
