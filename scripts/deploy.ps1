@@ -34,7 +34,9 @@ $layerDest = Join-Path $destDir 'SkyrimNet\external\stoptryharding.dragonsense'
 if (Test-Path $layerDest) {
     Remove-Item $layerDest -Recurse -Force
 }
-Copy-Item (Join-Path $projectRoot 'plugins\en\*') $layerDest -Recurse -Force
+New-Item -ItemType Directory -Force -Path $layerDest | Out-Null
+Copy-Item (Join-Path $projectRoot 'plugins\en\manifest.json') $layerDest -Force
+Copy-Item (Join-Path $projectRoot 'plugins\en\triggers') $layerDest -Recurse -Force
 Write-Output "English content plugin synced to $layerDest"
 
 Write-Output "destination: $modRoot"
