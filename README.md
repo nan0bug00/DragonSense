@@ -17,9 +17,13 @@ One mod, one archive: the SKSE plugin plus its SkyrimNet content plugin, which S
 - [Address Library for SKSE Plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
 - [SkyrimNet](https://www.nexusmods.com/skyrimspecialedition/mods/108752) 0.25 or newer
 
-## Install
+## Download and install
 
-Install the archive with your mod manager and enable it. That's everything: the DLL and the plugin travel together, and SkyrimNet registers the plugin on start-up with an **External** badge on its Installed Plugins page.
+[Latest release](https://github.com/nan0bug00/DragonSense/releases/latest) — one archive.
+
+Install it with your mod manager and enable it. That's everything: the DLL and the plugin travel together, and SkyrimNet registers the plugin on start-up with an **External** badge on its Installed Plugins page.
+
+The Hub entry for DragonSense is a listing that links here, since the download has to carry the DLL.
 
 ## Languages
 
@@ -27,7 +31,7 @@ English is included and is the default. The other twelve are separate SkyrimNet 
 
 Russian, Japanese, Portuguese, Spanish, French, German, Italian, Polish, Korean, Vietnamese, Chinese (Simplified), Chinese (Traditional).
 
-A translated plugin replaces the English text, so enable it and disable the English external plugin the mod installs; only one should be active.
+A translation replaces the English text, so enable it and disable the English external plugin the mod installs; only one should be active.
 
 ## Building
 
