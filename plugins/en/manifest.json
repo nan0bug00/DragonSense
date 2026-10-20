@@ -5,7 +5,7 @@
   "version": "0.3.0",
   "min_skyrimnet_version": "0.25.0",
   "title": "DragonSense",
-  "tagline": "NPCs hear a dragon's roar and the Greybeards' summons",
+  "tagline": "Dragon roars and the Greybeards' summons stop being player-only. Your NPCs hear them, react, and remember.",
   "description": "Gives SkyrimNet NPCs awareness of world-scale sound. A dragon's flight roar is detected through its sound record, classified by distance, and raised as a DragonSense event; half become stored events the NPCs can remember, half become authored narration that provokes a reaction. Also narrates the Greybeards' summons when the shout plays.",
   "tags": ["triggers", "immersion", "dragons"],
   "nsfw": false,
