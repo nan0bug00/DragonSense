@@ -32,6 +32,28 @@ jobs:
       - name: Build
         run: cmake --build build
 
+      - name: Stamp plugin versions
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          Get-ChildItem plugins -Directory | ForEach-Object {
+            $manifest = Join-Path $_.FullName 'manifest.json'
+            $json = Get-Content $manifest -Raw | ConvertFrom-Json
+            $json.version = $version
+            $json | ConvertTo-Json -Depth 10 | Set-Content $manifest -Encoding utf8
+          }
+          Write-Output "stamped plugin manifests with $version"
+
+      - name: Validate plugin manifests
+        run: |
+          Get-ChildItem plugins -Directory | ForEach-Object {
+            $manifest = Join-Path $_.FullName 'manifest.json'
+            if (-not (Test-Path $manifest)) { throw "missing manifest: $manifest" }
+            $null = Get-Content $manifest -Raw | ConvertFrom-Json
+            if (-not (Test-Path (Join-Path $_.FullName 'triggers'))) { throw "missing triggers: $($_.Name)" }
+          }
+          Write-Output "plugin manifests parsed"
+
       - name: Assemble packages
         run: |
           New-Item -ItemType Directory -Force -Path package/DragonSense/SKSE/Plugins | Out-Null
