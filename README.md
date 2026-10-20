@@ -9,7 +9,7 @@ Two things, so far:
 
 Each roar episode is a coin flip: half become a stored event the NPCs can remember later, half become an authored narration that provokes a reaction now.
 
-This is a SkyrimNet add-on: one SKSE plugin for the detection, plus a SkyrimNet content plugin for the words. It does nothing without SkyrimNet.
+One mod, one archive: the SKSE plugin plus its SkyrimNet content plugin, which SkyrimNet picks up as an external layer. No ESP.
 
 ## Requirements
 
@@ -19,14 +19,15 @@ This is a SkyrimNet add-on: one SKSE plugin for the detection, plus a SkyrimNet 
 
 ## Install
 
-1. Install the DragonSense mod with your mod manager and enable it. It carries the DLL.
-2. Install **one** language plugin from SkyrimNet's Plugin Hub (Plugins in the dashboard): DragonSense for English, or one of the translations. Only one should be enabled.
+Install the archive with your mod manager and enable it. That's everything: the DLL and the plugin travel together, and SkyrimNet registers the plugin on start-up with an **External** badge on its Installed Plugins page.
 
 ## Languages
 
-English, Russian, Japanese, Portuguese, Spanish, French, German, Italian, Polish, Korean, Vietnamese, Chinese (Simplified), Chinese (Traditional).
+English is included and is the default. The other twelve are separate SkyrimNet content plugins published on the Hub — install one from the Plugins page:
 
-Each is its own plugin with its own id, so they don't collide. Enable one, disable any other.
+Russian, Japanese, Portuguese, Spanish, French, German, Italian, Polish, Korean, Vietnamese, Chinese (Simplified), Chinese (Traditional).
+
+A translated plugin replaces the English text, so enable it and disable the English external plugin the mod installs; only one should be active.
 
 ## Building
 
@@ -43,7 +44,7 @@ The CommonLibSSE-NG checkout is not committed; clone it into `lib/` as shown. `s
 ## Layout
 
 - `src/` — the SKSE plugin.
-- `plugins/<language>/` — SkyrimNet content plugins, one per language, each ready to publish to the Hub. The DLL is packaged from `build/` by the release workflow.
+- `plugins/<language>/` — SkyrimNet content plugins. `en` is the one packaged into the mod; the rest are published to the Hub.
 
 ## Credit
 

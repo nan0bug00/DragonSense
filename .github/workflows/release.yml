@@ -54,28 +54,27 @@ jobs:
           }
           Write-Output "plugin manifests parsed"
 
-      - name: Assemble packages
+      - name: Assemble package
         run: |
-          New-Item -ItemType Directory -Force -Path package/DragonSense/SKSE/Plugins | Out-Null
-          Copy-Item build/DragonSense.dll package/DragonSense/SKSE/Plugins/ -Force
+          $layer = 'package/DragonSense/SKSE/Plugins/SkyrimNet/external/stoptryharding.dragonsense'
+          New-Item -ItemType Directory -Force -Path 'package/DragonSense/SKSE/Plugins' | Out-Null
+          New-Item -ItemType Directory -Force -Path $layer | Out-Null
+          Copy-Item build/DragonSense.dll 'package/DragonSense/SKSE/Plugins/' -Force
+          Copy-Item plugins/en/manifest.json $layer -Force
+          Copy-Item plugins/en/triggers $layer -Recurse -Force
           Compress-Archive -Path package/DragonSense/* -DestinationPath "DragonSense-${{ github.ref_name }}.zip" -Force
-          Compress-Archive -Path plugins/* -DestinationPath "DragonSense-plugins-${{ github.ref_name }}.zip" -Force
 
-      - name: Upload build artifacts
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: DragonSense-${{ github.ref_name }}
           path: |
             DragonSense-${{ github.ref_name }}.zip
-            DragonSense-plugins-${{ github.ref_name }}.zip
             build/DragonSense.pdb
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            DragonSense-${{ github.ref_name }}.zip
-            DragonSense-plugins-${{ github.ref_name }}.zip
-            build/DragonSense.pdb
+          files: DragonSense-${{ github.ref_name }}.zip
           generate_release_notes: true
