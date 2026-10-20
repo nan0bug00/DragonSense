@@ -4,3 +4,4 @@ lib/
 *.user
 *.suo
 vcpkg_installed/
+package/
