@@ -1,0 +1,12 @@
+{
+  "name": "dragonsense",
+  "version-string": "0.1.0",
+  "dependencies": [
+    "spdlog",
+    "fmt",
+    "directxtk",
+    "directxmath",
+    "rapidcsv",
+    "xbyak"
+  ]
+}
