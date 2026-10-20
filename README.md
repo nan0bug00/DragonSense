@@ -4,12 +4,14 @@
 
 Gives SkyrimNet NPCs ears for things typically only perceived by the player.
 
-Two things, so far:
+A collection of one-off moments — the kind that happen once in a playthrough and then never again, so almost nobody writes a trigger for them:
 
-- **Dragon roars.** The plugin watches the dragon flight-roar sound records, ignores kill and resurrection roars, and raises a DragonSense event when one plays. A dragon in combat is always classified near; otherwise within 2,000 units is near and anything further is distant.
+- **Dragon roars.** Fight one, or hear one across the valley. A dragon in combat is always classified near; otherwise within 2,000 units is near and anything further is distant.
 - **The Greybeards' summons.** Watched from `MQGreybeardCall`'s startup stage, so it narrates when the shout actually plays rather than when the quest ends.
+- **Bats.** A colony bursts out of the dark close enough to feel the air move.
+- **Ustengrav's tomb.** Stone grinds against stone as something ancient shifts in the dark.
 
-Each roar episode is a coin flip: half become a stored event the NPCs can remember later, half become an authored narration that provokes a reaction now.
+Roar episodes are a coin flip: half become a stored event the NPCs can remember later, half become an authored narration that provokes a reaction now. The one-off moments always narrate.
 
 One mod, one archive: the SKSE plugin plus its SkyrimNet content plugin, which SkyrimNet picks up as an external layer. No ESP.
 
@@ -23,17 +25,15 @@ One mod, one archive: the SKSE plugin plus its SkyrimNet content plugin, which S
 
 [Latest release](https://github.com/nan0bug00/DragonSense/releases/latest) — one archive.
 
-Install it with your mod manager and enable it. That's everything: the DLL and the plugin travel together, and SkyrimNet registers the plugin on start-up with an **External** badge on its Installed Plugins page.
+Install it with your mod manager. The installer asks which language you want, then places the DLL and that language's plugin. SkyrimNet registers the plugin on start-up with an **External** badge on its Installed Plugins page.
 
 The Hub entry for DragonSense is a listing that links here, since the download has to carry the DLL.
 
 ## Languages
 
-English is included and is the default. The other twelve are separate SkyrimNet content plugins published on the Hub — install one from the Plugins page:
+English, Russian, Japanese, Portuguese, Spanish, French, German, Italian, Polish, Korean, Vietnamese, Chinese (Simplified), Chinese (Traditional).
 
-Russian, Japanese, Portuguese, Spanish, French, German, Italian, Polish, Korean, Vietnamese, Chinese (Simplified), Chinese (Traditional).
-
-A translation replaces the English text, so enable it and disable the English external plugin the mod installs; only one should be active.
+Pick one in the installer. To change language later, reinstall the archive and choose again.
 
 ## Building
 
@@ -45,12 +45,12 @@ cmake --preset default
 cmake --build build
 ```
 
-The CommonLibSSE-NG checkout is not committed; clone it into `lib/` as shown. `scripts/deploy.ps1` copies the built DLL and the English plugin into an MO2 instance for testing.
+The CommonLibSSE-NG checkout is not committed; clone it into `lib/` as shown. `scripts/deploy.ps1` copies the built DLL and the English plugin into an MO2 instance for testing, and `scripts/build-fomod.ps1` assembles the release archive from `plugins/`.
 
 ## Layout
 
 - `src/` — the SKSE plugin.
-- `plugins/<language>/` — SkyrimNet content plugins. `en` is the one packaged into the mod; the rest are published to the Hub.
+- `plugins/<language>/` — SkyrimNet content plugins. All of them go into the archive; the FOMOD installs one.
 
 ## Credit
 
