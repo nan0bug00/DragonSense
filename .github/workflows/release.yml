@@ -56,13 +56,8 @@ jobs:
 
       - name: Assemble package
         run: |
-          $layer = 'package/DragonSense/SKSE/Plugins/SkyrimNet/external/stoptryharding.dragonsense'
-          New-Item -ItemType Directory -Force -Path 'package/DragonSense/SKSE/Plugins' | Out-Null
-          New-Item -ItemType Directory -Force -Path $layer | Out-Null
-          Copy-Item build/DragonSense.dll 'package/DragonSense/SKSE/Plugins/' -Force
-          Copy-Item plugins/en/manifest.json $layer -Force
-          if (Test-Path plugins/en/cover.png) { Copy-Item plugins/en/cover.png $layer -Force }
-          Copy-Item plugins/en/triggers $layer -Recurse -Force
+          $version = if ("${{ github.ref }}".StartsWith('refs/tags/')) { "${{ github.ref_name }}".TrimStart('v') } else { 'dev' }
+          pwsh -NoProfile -File scripts/build-fomod.ps1 -Dll build/DragonSense.dll -Version $version
           Compress-Archive -Path package/DragonSense/* -DestinationPath "DragonSense-${{ github.ref_name }}.zip" -Force
 
       - name: Upload build artifact

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
+  <moduleName>DragonSense</moduleName>
+  <requiredInstallFiles>
+    <folder source="core" destination=""/>
+  </requiredInstallFiles>
+  <installSteps order="Explicit">
+    <installStep name="Language">
+      <optionalFileGroups order="Explicit">
+        <group name="Language" type="SelectExactlyOne">
+          <plugins order="Explicit">
+            <plugin name="English">
+              <description>Narration in English.</description>
+              <files>
+                <folder source="langs/en" destination=""/>
+              </files>
+              <typeDescriptor><type name="Recommended"/><defaultType name="Recommended"/></typeDescriptor>
+            </plugin>
+            <plugin name="German">
+              <description>Narration in German.</description>
+              <files>
+                <folder source="langs/de" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Spanish">
+              <description>Narration in Spanish.</description>
+              <files>
+                <folder source="langs/es" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="French">
+              <description>Narration in French.</description>
+              <files>
+                <folder source="langs/fr" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Italian">
+              <description>Narration in Italian.</description>
+              <files>
+                <folder source="langs/it" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Japanese">
+              <description>Narration in Japanese.</description>
+              <files>
+                <folder source="langs/ja" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Korean">
+              <description>Narration in Korean.</description>
+              <files>
+                <folder source="langs/ko" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Polish">
+              <description>Narration in Polish.</description>
+              <files>
+                <folder source="langs/pl" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Portuguese">
+              <description>Narration in Portuguese.</description>
+              <files>
+                <folder source="langs/pt" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Russian">
+              <description>Narration in Russian.</description>
+              <files>
+                <folder source="langs/ru" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Vietnamese">
+              <description>Narration in Vietnamese.</description>
+              <files>
+                <folder source="langs/vi" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Chinese (Simplified)">
+              <description>Narration in Chinese (Simplified).</description>
+              <files>
+                <folder source="langs/zh" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+            <plugin name="Chinese (Traditional)">
+              <description>Narration in Chinese (Traditional).</description>
+              <files>
+                <folder source="langs/zh-TW" destination=""/>
+              </files>
+              <typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
+  </installSteps>
+</config>

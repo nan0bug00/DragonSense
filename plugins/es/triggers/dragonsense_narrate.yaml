@@ -11,7 +11,7 @@ eventCriteria:
 response:
   type: "direct_narration"
   content: |-
-    {% if event_json.kind == "roar_near" %}*Un rugido de dragón estalla cerca, enorme y ronco, lo bastante fuerte para sentirse en el pecho.*{% else if event_json.kind == "roar_distant" %}*A lo lejos, algo inmenso ruge. El sonido resuena por la tierra y se apaga, y lo que lo produjo no está cerca.*{% else %}*Una voz inmensa desciende de la montaña, tan fuerte que parece venir del cielo mismo, y por un instante todo lo vivo en la región se queda quieto: "¡Dovahkiin!"*{% endif %}
+    {% if event_json.kind == "roar_near" %}*Un rugido de dragón estalla cerca, enorme y ronco, lo bastante fuerte para sentirse en el pecho.*{% else if event_json.kind == "roar_distant" %}*A lo lejos, algo inmenso ruge. El sonido resuena por la tierra y se apaga, y lo que lo produjo no está cerca.*{% else if event_json.kind == "greybeard_call" %}*Una voz inmensa desciende de la montaña, tan fuerte que parece venir del cielo mismo, y por un instante todo lo vivo en la región se queda quieto: "¡Dovahkiin!"*{% else if event_json.kind == "bats" %}*Una colonia de murciélagos estalla desde la oscuridad, un remolino de cuero que pasa tan cerca que se siente moverse el aire.*{% else if event_json.kind == "ustengrav_pillars" %}*Piedra contra piedra mientras algo antiguo se mueve en la oscuridad, y luego la tumba vuelve a callar.*{% else %}*Algo se mueve cerca.*{% endif %}
 
 audience: "nearby_npcs"
 

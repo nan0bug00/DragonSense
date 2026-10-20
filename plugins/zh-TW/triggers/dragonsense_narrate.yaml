@@ -11,7 +11,7 @@ eventCriteria:
 response:
   type: "direct_narration"
   content: |-
-    {% if event_json.kind == "roar_near" %}*一聲龍吼在近處炸響，巨大而粗礪，震得胸口發麻。*{% else if event_json.kind == "roar_distant" %}*遠處，某個龐然大物在咆哮。聲音越過大地迴盪，漸漸消散，但那東西並不近。*{% else %}*一個宏大的聲音從山巔滾落，響得彷彿來自天空本身，一時間，領地上所有活物都靜了下來：「都瓦克因！」*{% endif %}
+    {% if event_json.kind == "roar_near" %}*一聲龍吼在近處炸響，巨大而粗礪，震得胸口發麻。*{% else if event_json.kind == "roar_distant" %}*遠處，某個龐然大物在咆哮。聲音越過大地迴盪，漸漸消散，但那東西並不近。*{% else if event_json.kind == "greybeard_call" %}*一個宏大的聲音從山巔滾落，響得彷彿來自天空本身，一時間，領地上所有活物都靜了下來：「都瓦克因！」*{% else if event_json.kind == "bats" %}*一群蝙蝠從黑暗中湧出，皮革般的翅膀撲面而過，近得能感覺到空氣的震動。*{% else if event_json.kind == "ustengrav_pillars" %}*石頭與石頭摩擦作響，黑暗中某個古老的東西動了起來，隨後墓室重歸寂靜。*{% else %}*附近有什麼東西在動。*{% endif %}
 
 audience: "nearby_npcs"
 

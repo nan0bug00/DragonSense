@@ -1,0 +1,21 @@
+name: "dragonsense_remember"
+description: "DragonSense event delivered as a stored event: no immediate reaction, but it stays in history."
+
+eventCriteria:
+  eventType: "dragonsense_event"
+  schemaConditions:
+    - fieldPath: "mode"
+      operator: "equals"
+      value: "remember"
+
+response:
+  type: "persistent_generic"
+  content: |-
+    {% if event_json.kind == "roar_near" %}Un rugido de dragón estalló cerca, enorme y ronco, lo bastante fuerte para sentirse en el pecho.{% else if event_json.kind == "roar_distant" %}A lo lejos, algo inmenso rugió. El sonido resonó por la tierra y se apagó, y lo que lo produjo no estaba cerca.{% else %}Una voz inmensa descendió de la montaña, y por un instante todo lo vivo en la región se quedó quieto: "¡Dovahkiin!"{% endif %}
+
+audience: "nearby_npcs"
+
+enabled: true
+probability: 1.0
+cooldownSeconds: 5
+priority: 7

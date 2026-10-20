@@ -11,7 +11,7 @@ eventCriteria:
 response:
   type: "direct_narration"
   content: |-
-    {% if event_json.kind == "roar_near" %}*すぐ近くでドラゴンの咆哮が炸裂する。巨大で荒々しく、胸に響くほどだ。*{% else if event_json.kind == "roar_distant" %}*遠くで何か巨大なものが吼える。音は大地を渡って響き、やがて消えていく。その主はここではない。*{% else %}*山から巨大な声が転がり落ちてくる。空そのものから響くかのようで、一瞬、領内の生きとし生けるものすべてが息を潜める。「ドヴァキン！」*{% endif %}
+    {% if event_json.kind == "roar_near" %}*すぐ近くでドラゴンの咆哮が炸裂する。巨大で荒々しく、胸に響くほどだ。*{% else if event_json.kind == "roar_distant" %}*遠くで何か巨大なものが吼える。音は大地を渡って響き、やがて消えていく。その主はここではない。*{% else if event_json.kind == "greybeard_call" %}*山から巨大な声が転がり落ちてくる。空そのものから響くかのようで、一瞬、領内の生きとし生けるものすべてが息を潜める。「ドヴァキン！」*{% else if event_json.kind == "bats" %}*暗闇からコウモリの群れが飛び出す。革のような羽音がすぐ近くをかすめ、空気の動きが肌に伝わる。*{% else if event_json.kind == "ustengrav_pillars" %}*石が石を擦る音が響き、暗闇で何か古いものが動き出す。やがて墓所は再び静まり返る。*{% else %}*近くで何かが動いた。*{% endif %}
 
 audience: "nearby_npcs"
 

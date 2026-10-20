@@ -71,6 +71,26 @@ namespace
         RoarClass  variantClass;
     };
 
+    // One-off moments. These are not roars: they are specific sounds owned by a
+    // single set piece, so they are always narrated rather than coin-flipped, and
+    // there is no distance to classify.
+    struct MomentEntry
+    {
+        RE::FormID  formID;
+        const char* kind;
+    };
+
+    constexpr MomentEntry kMomentTable[] = {
+        { 0x03E5D6, "bats" },              // AMBBats, played by the bat swarm activator
+        { 0x0379D0, "ustengrav_pillars" }, // QSTUstengravRumbleStatue01
+        { 0x0379F5, "ustengrav_pillars" }, // QSTUstengravRumbleStatue02
+    };
+
+    constexpr auto kMomentCooldown = std::chrono::seconds(120);
+
+    std::mutex                                                                    g_momentMutex;
+    std::unordered_map<std::string_view, std::chrono::steady_clock::time_point>    g_lastMoment;
+
     std::vector<Observation>     g_pending;
     std::mutex                   g_pendingMutex;
     std::atomic<bool>            g_episodeScheduled{ false };
@@ -104,6 +124,65 @@ namespace
             }
         }
         return nullptr;
+    }
+
+    const MomentEntry* FindMoment(RE::FormID a_formID)
+    {
+        for (const auto& entry : kMomentTable) {
+            if (entry.formID == a_formID) {
+                return &entry;
+            }
+        }
+        return nullptr;
+    }
+
+    bool MomentReady(std::string_view a_kind)
+    {
+        std::scoped_lock lock{ g_momentMutex };
+
+        const auto now = std::chrono::steady_clock::now();
+        const auto it = g_lastMoment.find(a_kind);
+        if (it != g_lastMoment.end() && now - it->second < kMomentCooldown) {
+            return false;
+        }
+
+        g_lastMoment[a_kind] = now;
+        return true;
+    }
+
+    // Game thread only.
+    void EmitMoment(std::string_view a_kind)
+    {
+        auto* player = RE::PlayerCharacter::GetSingleton();
+        if (!player) {
+            return;
+        }
+        if (!SkyrimNetBridge::MemorySystemReady()) {
+            logger::info("moment [{}]: dropped, no save loaded", a_kind);
+            return;
+        }
+
+        const std::string payload =
+            std::string{ R"({"kind":")" } + std::string{ a_kind } + R"(","mode":"narrate"})";
+
+        if (SkyrimNetBridge::RegisterTypedEvent("dragonsense_event", payload.c_str(), player->GetFormID())) {
+            logger::info("moment [{}]: raised", a_kind);
+        } else {
+            logger::warn("moment [{}]: SkyrimNet refused the event", a_kind);
+        }
+    }
+
+    void ScheduleMoment(std::string_view a_kind)
+    {
+        const auto* tasks = SKSE::GetTaskInterface();
+        if (!tasks) {
+            return;
+        }
+
+        const std::string kind{ a_kind };
+        tasks->AddTask([kind] {
+            EmitMoment(kind);
+        });
     }
 
     // Nearest live dragon, preferring one that is actually fighting. The fight is
@@ -277,6 +356,15 @@ namespace
     void OnResolve(const RE::BSISoundDescriptor::Resolution& a_resolution)
     {
         const auto count = ++g_resolveCount;
+
+        if (const auto* moment = FindMoment(a_resolution.formID)) {
+            if (MomentReady(moment->kind)) {
+                logger::info("MOMENT[{}] form={:08X}", moment->kind, a_resolution.formID);
+                ScheduleMoment(moment->kind);
+            }
+            return;
+        }
+
         const auto* entry = FindRoar(a_resolution.formID);
 
         if (entry) {

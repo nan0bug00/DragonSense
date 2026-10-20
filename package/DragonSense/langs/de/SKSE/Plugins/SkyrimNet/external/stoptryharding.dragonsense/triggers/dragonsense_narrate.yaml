@@ -1,0 +1,21 @@
+name: "dragonsense_narrate"
+description: "DragonSense event delivered as an authored narration, so NPCs react to it now."
+
+eventCriteria:
+  eventType: "dragonsense_event"
+  schemaConditions:
+    - fieldPath: "mode"
+      operator: "equals"
+      value: "narrate"
+
+response:
+  type: "direct_narration"
+  content: |-
+    {% if event_json.kind == "roar_near" %}*Ganz in der Nähe bricht das Brüllen eines Drachen los — gewaltig und rau, laut genug, um es in der Brust zu spüren.*{% else if event_json.kind == "roar_distant" %}*In der Ferne brüllt etwas Gewaltiges. Der Laut rollt über das Land und verklingt, und was ihn ausstieß, ist nicht nah.*{% else %}*Eine gewaltige Stimme rollt vom Berg herab, so laut, als käme sie vom Himmel selbst, und für einen Augenblick verstummt alles Lebendige in der Region: „Dovahkiin!“*{% endif %}
+
+audience: "nearby_npcs"
+
+enabled: true
+probability: 1.0
+cooldownSeconds: 5
+priority: 7

@@ -11,7 +11,7 @@ eventCriteria:
 response:
   type: "direct_narration"
   content: |-
-    {% if event_json.kind == "roar_near" %}*가까이서 드래곤의 포효가 터진다. 거대하고 거칠며, 가슴이 울릴 만큼 크다.*{% else if event_json.kind == "roar_distant" %}*멀리서 거대한 무언가가 포효한다. 소리는 대지를 가로질러 울리다 잦아들고, 그 주인은 가까이 있지 않다.*{% else %}*거대한 목소리가 산에서 굴러 내려온다. 하늘에서 울리는 듯 크고, 잠시 영지의 모든 생명이 숨을 죽인다. "도바킨!"*{% endif %}
+    {% if event_json.kind == "roar_near" %}*가까이서 드래곤의 포효가 터진다. 거대하고 거칠며, 가슴이 울릴 만큼 크다.*{% else if event_json.kind == "roar_distant" %}*멀리서 거대한 무언가가 포효한다. 소리는 대지를 가로질러 울리다 잦아들고, 그 주인은 가까이 있지 않다.*{% else if event_json.kind == "greybeard_call" %}*거대한 목소리가 산에서 굴러 내려온다. 하늘에서 울리는 듯 크고, 잠시 영지의 모든 생명이 숨을 죽인다. "도바킨!"*{% else if event_json.kind == "bats" %}*어둠 속에서 박쥐 떼가 쏟아져 나온다. 가죽 같은 날갯짓이 코앞을 스쳐 공기가 움직이는 것이 느껴진다.*{% else if event_json.kind == "ustengrav_pillars" %}*돌이 돌을 갈며 어둠 속에서 오래된 무언가가 움직이고, 이내 무덤은 다시 조용해진다.*{% else %}*가까이서 무언가 움직인다.*{% endif %}
 
 audience: "nearby_npcs"
 

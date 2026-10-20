@@ -11,7 +11,7 @@ eventCriteria:
 response:
   type: "direct_narration"
   content: |-
-    {% if event_json.kind == "roar_near" %}*Ganz in der Nähe bricht das Brüllen eines Drachen los — gewaltig und rau, laut genug, um es in der Brust zu spüren.*{% else if event_json.kind == "roar_distant" %}*In der Ferne brüllt etwas Gewaltiges. Der Laut rollt über das Land und verklingt, und was ihn ausstieß, ist nicht nah.*{% else %}*Eine gewaltige Stimme rollt vom Berg herab, so laut, als käme sie vom Himmel selbst, und für einen Augenblick verstummt alles Lebendige in der Region: „Dovahkiin!“*{% endif %}
+    {% if event_json.kind == "roar_near" %}*Ganz in der Nähe bricht das Brüllen eines Drachen los — gewaltig und rau, laut genug, um es in der Brust zu spüren.*{% else if event_json.kind == "roar_distant" %}*In der Ferne brüllt etwas Gewaltiges. Der Laut rollt über das Land und verklingt, und was ihn ausstieß, ist nicht nah.*{% else if event_json.kind == "greybeard_call" %}*Eine gewaltige Stimme rollt vom Berg herab, so laut, als käme sie vom Himmel selbst, und für einen Augenblick verstummt alles Lebendige in der Region: „Dovahkiin!“*{% else if event_json.kind == "bats" %}*Ein Schwarm Fledermäuse bricht aus der Dunkelheit hervor, ein ledernes Flattern, das so nah vorbeizieht, dass man die Luft spürt.*{% else if event_json.kind == "ustengrav_pillars" %}*Stein mahlt gegen Stein, während sich etwas Uraltes in der Dunkelheit regt, und dann verstummt die Gruft wieder.*{% else %}*Etwas regt sich ganz in der Nähe.*{% endif %}
 
 audience: "nearby_npcs"
 
