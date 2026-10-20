@@ -61,6 +61,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path $layer | Out-Null
           Copy-Item build/DragonSense.dll 'package/DragonSense/SKSE/Plugins/' -Force
           Copy-Item plugins/en/manifest.json $layer -Force
+          if (Test-Path plugins/en/cover.png) { Copy-Item plugins/en/cover.png $layer -Force }
           Copy-Item plugins/en/triggers $layer -Recurse -Force
           Compress-Archive -Path package/DragonSense/* -DestinationPath "DragonSense-${{ github.ref_name }}.zip" -Force
 

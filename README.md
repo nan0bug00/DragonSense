@@ -1,5 +1,7 @@
 ﻿# DragonSense
 
+![DragonSense cover](plugins/en/cover.png)
+
 Gives SkyrimNet NPCs ears for things typically only perceived by the player.
 
 Two things, so far:
