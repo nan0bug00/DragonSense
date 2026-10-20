@@ -4,12 +4,12 @@ Gives SkyrimNet NPCs ears for things typically only perceived by the player.
 
 Two things, so far:
 
-- **Dragon roars.** The plugin watches the dragon flight-roar sound records, ignores kill and resurrection roars, and raises its own `dragonsense_event` when one plays. A dragon in combat is always classified near; otherwise within 2,000 units is near and anything further is distant.
+- **Dragon roars.** The plugin watches the dragon flight-roar sound records, ignores kill and resurrection roars, and raises a DragonSense event when one plays. A dragon in combat is always classified near; otherwise within 2,000 units is near and anything further is distant.
 - **The Greybeards' summons.** Watched from `MQGreybeardCall`'s startup stage, so it narrates when the shout actually plays rather than when the quest ends.
 
 Each roar episode is a coin flip: half become a stored event the NPCs can remember later, half become an authored narration that provokes a reaction now.
 
-No ESP. One DLL plus two trigger files, all inside one mod folder.
+This is a SkyrimNet add-on: one SKSE plugin for the detection, plus a SkyrimNet content plugin for the words. It does nothing without SkyrimNet.
 
 ## Requirements
 
@@ -19,15 +19,14 @@ No ESP. One DLL plus two trigger files, all inside one mod folder.
 
 ## Install
 
-Install the mod folder with your mod manager and enable it. The plugin registers its event type with SkyrimNet when a save loads, and the trigger files are read from `SKSE/Plugins/SkyrimNet/external/stoptryharding.dragonsense/`.
+1. Install the DragonSense mod with your mod manager and enable it. It carries the DLL.
+2. Install **one** language plugin from SkyrimNet's Plugin Hub (Plugins in the dashboard): DragonSense for English, or one of the translations. Only one should be enabled.
 
 ## Languages
 
-English is built in. The other eleven ship as separate packs in the release zip:
+English, Russian, Japanese, Portuguese, Spanish, French, German, Italian, Polish, Korean, Vietnamese, Chinese (Simplified), Chinese (Traditional).
 
-Russian, Japanese, Portuguese, Spanish, French, German, Italian, Polish, Korean, Vietnamese, Chinese (Simplified), Chinese (Traditional).
-
-Install the pack you want alongside the main mod and let it win the file conflict — in MO2, place it after DragonSense in the left pane. Each pack provides the same layer path with translated text, so exactly one can be active.
+Each is its own plugin with its own id, so they don't collide. Enable one, disable any other.
 
 ## Building
 
@@ -39,7 +38,12 @@ cmake --preset default
 cmake --build build
 ```
 
-The CommonLibSSE-NG checkout is not committed; clone it into `lib/` as shown. `scripts/deploy.ps1` copies the built DLL, the PDB and the mod content into an MO2 instance.
+The CommonLibSSE-NG checkout is not committed; clone it into `lib/` as shown. `scripts/deploy.ps1` copies the built DLL and the English plugin into an MO2 instance for testing.
+
+## Layout
+
+- `src/` — the SKSE plugin.
+- `plugins/<language>/` — SkyrimNet content plugins, one per language, each ready to publish to the Hub. The DLL is packaged from `build/` by the release workflow.
 
 ## Credit
 

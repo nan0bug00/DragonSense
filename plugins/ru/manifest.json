@@ -1,0 +1,12 @@
+﻿{
+  "type": "bundle",
+  "id": "stoptryharding.dragonsense-ru",
+  "author": "stoptryharding",
+  "version": "0.3.0",
+  "min_skyrimnet_version": "0.25.0",
+  "title": "DragonSense - Russian",
+  "tagline": "Russian narration for DragonSense",
+  "description": "Russian text for DragonSense. Enable this alongside the main DragonSense mod; it overrides the English lines.",
+  "tags": ["triggers", "immersion", "dragons", "translation"],
+  "nsfw": false
+}
