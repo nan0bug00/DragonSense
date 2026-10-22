@@ -1,12 +1,17 @@
 ﻿{
-  "type": "bundle",
-  "id": "stoptryharding.dragonsense-vi",
-  "author": "stoptryharding",
-  "version": "0.3.0",
-  "min_skyrimnet_version": "0.25.0",
-  "title": "DragonSense - Vietnamese",
-  "tagline": "Vietnamese narration for DragonSense",
-  "description": "Vietnamese text for DragonSense. Enable this alongside the main DragonSense mod; it overrides the English lines.",
-  "tags": ["triggers", "immersion", "dragons", "translation"],
-  "nsfw": false
+    "type":  "bundle",
+    "id":  "stoptryharding.dragonsense-vi",
+    "author":  "stoptryharding",
+    "version":  "0.4.0",
+    "min_skyrimnet_version":  "0.25.0",
+    "title":  "DragonSense - Vietnamese",
+    "tagline":  "Vietnamese narration for DragonSense",
+    "description":  "Vietnamese text for DragonSense. Enable this alongside the main DragonSense mod; it overrides the English lines.",
+    "tags":  [
+                 "triggers",
+                 "immersion",
+                 "dragons",
+                 "translation"
+             ],
+    "nsfw":  false
 }
