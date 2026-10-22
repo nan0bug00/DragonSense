@@ -71,19 +71,11 @@ namespace
         RoarClass  variantClass;
     };
 
-    // One-off moments. These are not roars: they are specific sounds owned by a
-    // single set piece, so they are always narrated rather than coin-flipped, and
-    // there is no distance to classify.
-    struct MomentEntry
-    {
-        RE::FormID  formID;
-        const char* kind;
-    };
-
-    constexpr MomentEntry kMomentTable[] = {
-        { 0x03E5D6, "bats" },              // AMBBats, played by the bat swarm activator
-        { 0x0379D0, "ustengrav_pillars" }, // QSTUstengravRumbleStatue01
-        { 0x0379F5, "ustengrav_pillars" }, // QSTUstengravRumbleStatue02
+    // One-off moments, keyed to the scene's own references rather than to a sound.
+    // Ustengrav: dunUstengravStatueScript has OnActivate, which raises the statue and
+    // enables the rumble. These are the four placed statue activators in Ustengrav02.
+    constexpr RE::FormID kUstengravStatues[] = {
+        0x085CEA, 0x085CF2, 0x085CF5, 0x085CFD
     };
 
     constexpr auto kMomentCooldown = std::chrono::seconds(120);
@@ -119,16 +111,6 @@ namespace
     const RoarEntry* FindRoar(RE::FormID a_formID)
     {
         for (const auto& entry : kRoarTable) {
-            if (entry.formID == a_formID) {
-                return &entry;
-            }
-        }
-        return nullptr;
-    }
-
-    const MomentEntry* FindMoment(RE::FormID a_formID)
-    {
-        for (const auto& entry : kMomentTable) {
             if (entry.formID == a_formID) {
                 return &entry;
             }
@@ -184,6 +166,38 @@ namespace
             EmitMoment(kind);
         });
     }
+
+    // The Ustengrav scene is an activation, not a sound: dunUstengravStatueScript's
+    // OnActivate raises the statue and enables the rumble. Watching the statue
+    // references ties the narration to that scene and nothing else.
+    class StatueActivationSink final : public RE::BSTEventSink<RE::TESActivateEvent>
+    {
+    public:
+        RE::BSEventNotifyControl ProcessEvent(const RE::TESActivateEvent* a_event,
+                                              RE::BSTEventSource<RE::TESActivateEvent>*) override
+        {
+            if (!a_event || !a_event->objectActivated) {
+                return RE::BSEventNotifyControl::kContinue;
+            }
+
+            const auto formID = a_event->objectActivated->GetFormID();
+            for (const auto statue : kUstengravStatues) {
+                if (formID != statue) {
+                    continue;
+                }
+
+                if (MomentReady("ustengrav_pillars")) {
+                    logger::info("MOMENT[ustengrav_pillars] statue {:08X} activated", formID);
+                    ScheduleMoment("ustengrav_pillars");
+                }
+                break;
+            }
+
+            return RE::BSEventNotifyControl::kContinue;
+        }
+    };
+
+    StatueActivationSink g_statueSink;
 
     // Nearest live dragon, preferring one that is actually fighting. The fight is
     // the signal for "near": a dragon circling at distance to make a pass is still
@@ -356,15 +370,6 @@ namespace
     void OnResolve(const RE::BSISoundDescriptor::Resolution& a_resolution)
     {
         const auto count = ++g_resolveCount;
-
-        if (const auto* moment = FindMoment(a_resolution.formID)) {
-            if (MomentReady(moment->kind)) {
-                logger::info("MOMENT[{}] form={:08X}", moment->kind, a_resolution.formID);
-                ScheduleMoment(moment->kind);
-            }
-            return;
-        }
-
         const auto* entry = FindRoar(a_resolution.formID);
 
         if (entry) {
@@ -454,6 +459,13 @@ namespace DragonRoar
 
         LogTable();
         InstallHook();
+
+        if (auto* holder = RE::ScriptEventSourceHolder::GetSingleton()) {
+            holder->AddEventSink<RE::TESActivateEvent>(&g_statueSink);
+            logger::info("statue activation sink registered (Ustengrav)");
+        } else {
+            logger::error("no script event source holder; the Ustengrav moment is disabled");
+        }
 
         logger::info("dragon roar detection armed");
     }

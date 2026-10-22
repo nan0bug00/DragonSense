@@ -25,6 +25,7 @@ add_commonlibsse_plugin(DragonSense
         src/skyrimnet_bridge.cpp
         src/dragon_roar.cpp
         src/world_events.cpp
+        src/bats_moment.cpp
 )
 
 target_compile_features(DragonSense PRIVATE cxx_std_23)

@@ -11,7 +11,7 @@ eventCriteria:
 response:
   type: "direct_narration"
   content: |-
-    {% if event_json.kind == "roar_near" %}*すぐ近くでドラゴンの咆哮が炸裂する。巨大で荒々しく、胸に響くほどだ。*{% else if event_json.kind == "roar_distant" %}*遠くで何か巨大なものが吼える。音は大地を渡って響き、やがて消えていく。その主はここではない。*{% else if event_json.kind == "greybeard_call" %}*山から巨大な声が転がり落ちてくる。空そのものから響くかのようで、一瞬、領内の生きとし生けるものすべてが息を潜める。「ドヴァキン！」*{% else if event_json.kind == "bats" %}*暗闇からコウモリの群れが飛び出す。革のような羽音がすぐ近くをかすめ、空気の動きが肌に伝わる。*{% else if event_json.kind == "ustengrav_pillars" %}*石が石を擦る音が響き、暗闇で何か古いものが動き出す。やがて墓所は再び静まり返る。*{% else %}*近くで何かが動いた。*{% endif %}
+    {% if event_json.kind == "roar_near" %}すぐ近くでドラゴンの咆哮が炸裂する。巨大で荒々しく、胸に響くほどだ。{% else if event_json.kind == "roar_distant" %}遠くで何か巨大なものが吼える。音は大地を渡って響き、やがて消えていく。その主はここではない。{% else if event_json.kind == "greybeard_call" %}山から巨大な声が転がり落ちてくる。空そのものから響くかのようで、一瞬、領内の生きとし生けるものすべてが息を潜める。「ドヴァキン！」{% else if event_json.kind == "bleakfalls_bats" %}洞窟の闇からコウモリの群れが飛び出す。羽音はすぐ近くで空気の動きを感じるほどだ。彼らが飛び去ると、内陣が姿を現す。天井から差す光の柱が、中央の棺と精巧な古代ノルドの石細工を備えた壇を照らしている。{% else if event_json.kind == "ustengrav_pillars" %}石が石を擦る音が響き、暗闇で何か古いものが動き出す。やがて墓所は再び静まり返る。{% else %}近くで何かが動いた。{% endif %}
 
 audience: "nearby_npcs"
 

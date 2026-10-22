@@ -56,21 +56,23 @@ jobs:
 
       - name: Assemble package
         run: |
+          $label = "${{ github.ref_name }}" -replace '[^A-Za-z0-9._-]', '-'
           $version = if ("${{ github.ref }}".StartsWith('refs/tags/')) { "${{ github.ref_name }}".TrimStart('v') } else { 'dev' }
           pwsh -NoProfile -File scripts/build-fomod.ps1 -Dll build/DragonSense.dll -Version $version
-          Compress-Archive -Path package/DragonSense/* -DestinationPath "DragonSense-${{ github.ref_name }}.zip" -Force
+          Compress-Archive -Path package/DragonSense/* -DestinationPath "DragonSense-$label.zip" -Force
+          "ZIP_NAME=DragonSense-$label.zip" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DragonSense-${{ github.ref_name }}
+          name: DragonSense-pack
           path: |
-            DragonSense-${{ github.ref_name }}.zip
+            ${{ env.ZIP_NAME }}
             build/DragonSense.pdb
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: DragonSense-${{ github.ref_name }}.zip
+          files: ${{ env.ZIP_NAME }}
           generate_release_notes: true

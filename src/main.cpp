@@ -1,3 +1,4 @@
+#include "bats_moment.h"
 #include "dragon_roar.h"
 #include "skyrimnet_bridge.h"
 #include "world_events.h"
@@ -67,6 +68,7 @@ namespace
             std::call_once(g_roarOnce, [] {
                 DragonRoar::OnDataLoaded();
                 WorldEvents::OnDataLoaded();
+                BatsMoment::OnDataLoaded();
             });
         }
 
@@ -77,6 +79,7 @@ namespace
         if (a_msg->type == SKSE::MessagingInterface::kNewGame ||
             a_msg->type == SKSE::MessagingInterface::kPostLoadGame) {
             ProbeSkyrimNet("save loaded");
+            BatsMoment::OnLoad();
 
             const bool schema = SkyrimNetBridge::RegisterEventSchema(
                 "dragonsense_event",
