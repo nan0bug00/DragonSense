@@ -31,8 +31,27 @@ namespace
 {
     constexpr RE::FormID kDragonKeyword = 0x035D59;  // ActorTypeDragon
     constexpr float      kVeryCloseDistance = 2000.0f;  // near even out of combat
-    constexpr auto       kNearCooldown = std::chrono::seconds(60);
-    constexpr auto       kDistantCooldown = std::chrono::seconds(60);
+    constexpr auto       kNearCooldown = std::chrono::seconds(120);
+    constexpr auto       kDistantCooldown = std::chrono::seconds(180);
+
+    // Beyond this no roar is raised, fight or not. Set just inside where the engine
+    // itself fades the roar out (SOMStereoRadDragonRoar40960 is silent at 35626,
+    // SOMMono40960 at 40960).
+    constexpr float      kMaxAudibleDistance = 34000.0f;
+
+    // Share of roars delivered as a narration NPCs react to now; the rest are
+    // stored silently as remembered events.
+    constexpr double     kNarrateChance = 0.2;
+
+    // Locations where roars are never raised: scripted scenes full of dragons,
+    // where reactions would spam or break the scene's timing. A sublocation of
+    // one of these counts too.
+    //   ThroatoftheWorldLocation: the summit. Covers the Time-Wound vision in
+    //   Alduin's Bane (Hakon, Gormlaith and Felldir would react mid-scene) and
+    //   the dragons circling Paarthurnax after Alduin falls.
+    constexpr RE::FormID kExcludedLocations[] = {
+        0x0192BB,  // ThroatoftheWorldLocation
+    };
 
     constexpr std::size_t kSampleLimit = 25;
     constexpr std::size_t kCensusEvery = 500;
@@ -100,12 +119,27 @@ namespace
         return a_class == RoarClass::kDistant ? "distant" : "near";
     }
 
-    // Half the roars are remembered as a stored event, half provoke a reaction.
-    bool CoinFlip()
+    // Most roars are remembered as a stored event; a few provoke a reaction.
+    bool RollNarrate()
     {
         static std::mt19937               engine{ std::random_device{}() };
-        static std::bernoulli_distribution dist{ 0.5 };
+        static std::bernoulli_distribution dist{ kNarrateChance };
         return dist(engine);
+    }
+
+    // Game thread only. Returns the excluded location the player is in, or null.
+    const RE::BGSLocation* ExcludedLocation(RE::PlayerCharacter* a_player)
+    {
+        for (auto* location = a_player ? a_player->GetCurrentLocation() : nullptr;
+             location;
+             location = location->parentLoc) {
+            for (const auto excluded : kExcludedLocations) {
+                if (location->GetFormID() == excluded) {
+                    return location;
+                }
+            }
+        }
+        return nullptr;
     }
 
     const RoarEntry* FindRoar(RE::FormID a_formID)
@@ -275,7 +309,7 @@ namespace
         }
 
         const char* kind = isNear ? "roar_near" : "roar_distant";
-        const char* mode = CoinFlip() ? "narrate" : "remember";
+        const char* mode = RollNarrate() ? "narrate" : "remember";
 
         char payload[96];
         std::snprintf(payload, sizeof(payload), R"({"kind":"%s","mode":"%s"})", kind, mode);
@@ -314,7 +348,25 @@ namespace
             return;
         }
 
+        auto* player = RE::PlayerCharacter::GetSingleton();
+
+        if (const auto* excluded = ExcludedLocation(player)) {
+            logger::info("episode: {} roar resolve(s) dropped, player is in excluded location {} ({:08X})",
+                         observations.size(),
+                         excluded->GetName(),
+                         excluded->GetFormID());
+            return;
+        }
+
         const auto dragon = ProbeDragons();
+
+        if (dragon.distance > kMaxAudibleDistance) {
+            logger::info("episode: {} roar resolve(s) dropped, nearest dragon {} units is past the {} unit cutoff",
+                         observations.size(),
+                         static_cast<int>(dragon.distance),
+                         static_cast<int>(kMaxAudibleDistance));
+            return;
+        }
 
         // The variant cannot decide this: a single roar resolves the near and the
         // distant record both. It is only a fallback for when no dragon is found.
@@ -335,7 +387,6 @@ namespace
             roarClass = sawNearVariant ? RoarClass::kNear : RoarClass::kDistant;
         }
 
-        auto* player = RE::PlayerCharacter::GetSingleton();
         const bool playerFighting = player && player->IsInCombat();
 
         logger::info("episode: {} roar resolve(s), nearest dragon {}, in combat={}, player in combat={}, classified [{}]",
