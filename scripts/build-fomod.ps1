@@ -33,10 +33,18 @@ $core = Join-Path $Output 'core\SKSE\Plugins'
 New-Item -ItemType Directory -Force -Path $core | Out-Null
 Copy-Item $Dll $core -Force
 
+# Every language installs into the same layer directory, and SkyrimNet refuses an
+# external layer whose directory is not named for its manifest id.
+$layerId = 'stoptryharding.dragonsense'
+
 $languageCodes = @()
 foreach ($dir in Get-ChildItem $PluginsDir -Directory) {
     $code = $dir.Name
-    $layer = Join-Path $Output ("langs\{0}\SKSE\Plugins\SkyrimNet\external\stoptryharding.dragonsense" -f $code)
+    $manifestId = (Get-Content (Join-Path $dir.FullName 'manifest.json') -Raw -Encoding utf8 | ConvertFrom-Json).id
+    if ($manifestId -ne $layerId) {
+        throw "plugins/$code/manifest.json has id '$manifestId'; it must be '$layerId' to load from that layer directory"
+    }
+    $layer = Join-Path $Output ("langs\{0}\SKSE\Plugins\SkyrimNet\external\{1}" -f $code, $layerId)
     New-Item -ItemType Directory -Force -Path $layer | Out-Null
     Copy-Item (Join-Path $dir.FullName 'manifest.json') $layer -Force
     Copy-Item (Join-Path $dir.FullName 'triggers') $layer -Recurse -Force

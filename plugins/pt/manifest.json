@@ -1,12 +1,12 @@
 ﻿{
     "type":  "bundle",
-    "id":  "stoptryharding.dragonsense-pt",
+    "id":  "stoptryharding.dragonsense",
     "author":  "stoptryharding",
     "version":  "0.4.0",
     "min_skyrimnet_version":  "0.25.0",
     "title":  "DragonSense - Portuguese",
     "tagline":  "Portuguese narration for DragonSense",
-    "description":  "Portuguese text for DragonSense. Enable this alongside the main DragonSense mod; it overrides the English lines.",
+    "description":  "Portuguese text for DragonSense. Installed in place of the English lines by the FOMOD language step.",
     "tags":  [
                  "triggers",
                  "immersion",
