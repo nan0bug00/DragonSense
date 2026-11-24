@@ -75,9 +75,9 @@ Set-Content -Path (Join-Path $fomod 'info.xml') -Value $info -Encoding utf8
 $options = foreach ($code in $languageCodes) {
     $label = if ($names.Contains($code)) { $names[$code] } else { $code }
     $type = if ($code -eq 'en') {
-        '<typeDescriptor><type name="Recommended"/><defaultType name="Recommended"/></typeDescriptor>'
+        '<typeDescriptor><type name="Recommended"/></typeDescriptor>'
     } else {
-        '<typeDescriptor><type name="Optional"/><defaultType name="Optional"/></typeDescriptor>'
+        '<typeDescriptor><type name="Optional"/></typeDescriptor>'
     }
     @"
             <plugin name="$label">
